@@ -53,19 +53,33 @@ strings     = AFG_getCoordStrings;
 stringNames = fieldnames(strings.pos);
 
 %welcome messages and wait for key press
-fprintf(strings.intro1);
+clc;fprintf(strings.intro1);
 KbStrokeWait;
-fprintf(strings.intro2);
+clc;fprintf(strings.intro2);
 KbStrokeWait;
 
 %go through the positions, display message, and save the respective
-%position if correctness was confirmed. NOTE: eval is supposed to be an 
-%incredibly evil function that is
-%not ever to be used. In this case it is really convenient though, so get
-%over it, will you?
+%position if correctness was confirmed. 
 
-for dummy = stringNames %actually get the positions
-    coords.pos.(dummy) = AFG_getPosition(strings.(dummy),checkCorr);
+confirmed = 0; %variable that keeps script from continuing without confirmation
+
+while ~confirmed
+    for dummy = stringNames' %actually get the positions
+        coords.pos.(dummy{1}) = AFG_getPosition(strings.pos.(dummy{1}));
+        if strcmp(dummy{1},'fileLine') %let subjects close the pop-up window
+            button = 0;
+            while ~button;[~,~,button] = GetMouse;end;
+            while any(button);[~,~,button] = GetMouse;end
+        end
+    end
+    if checkCorr == 1
+        resp = input('Are you sure that you hit all the right locations? [y/n]\n','s');
+        if strcmp(resp,'y')
+            confirmed = 1;
+        end
+    elseif checkCorr == 0
+        confirmed = 1;
+    end
 end
-    
+
 end %end of function
