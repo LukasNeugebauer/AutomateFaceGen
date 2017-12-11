@@ -1,17 +1,20 @@
-function [] = AFG_leftMouse(coord,numberOfClicks)
-%
+function [] = AFG_leftMouse(coord,varargin)
+%[] = AFG_leftMouse(coord[,numberOfClicks])
 %simulates mouse click of the left mouse using the java class "ROBOT"
 %coord must be a 1x2 vector (x,y) and defines where to click
 %numberOfClicks defines single vs. double click and must be 1 or 2
+%default is 1
 
 global ROBOT;
 
-if ~ismember(numberOfClicks,[1,2])
-    error('numberOfClicks must be 1 or 2');
+if nargin == 1
+    numberOfClicks = 1;
+elseif nargin == 2
+    numberOfClicks = varargin{1};
 end
 
-if nargin >2
-    numberOfClicks = 1;
+if ~ismember(numberOfClicks,[1,2])
+    error('numberOfClicks must be 1 or 2');
 end
 
 import java.awt.event.*;

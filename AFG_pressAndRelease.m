@@ -10,7 +10,7 @@ function [] = AFG_pressAndRelease(key,type)
 
 if nargin > 1
     type = varargin{1};
-elseif nargin == 0 
+elseif nargin == 1 
     type = 0;
 end
 
@@ -26,10 +26,10 @@ else
 end
 
 if type ~= 2
-    ROBOT.mousePress(code);
+    ROBOT.keyPress(code);
 end
 if type ~= 1
-    ROBOT.mouseRelease(code);
+    ROBOT.keyRelease(code);
 end
 
 end

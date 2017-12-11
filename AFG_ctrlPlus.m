@@ -18,7 +18,7 @@ if sum(strcmp(events,key)) == 0
 else
     thisCode    = codes(strcmp(events,key));
 end
-    
+
 ROBOT.keyPress(ctrl);
 ROBOT.keyPress(thisCode);
 ROBOT.keyRelease(ctrl);

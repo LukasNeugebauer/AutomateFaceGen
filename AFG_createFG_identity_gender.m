@@ -33,26 +33,26 @@ p.identity  = identity;
 
 %handle variable arguments
 if nargin < 6
-    for x = 1:length(p.coord)
+    for x = 1:length(p.gender)
         p.names{x} = sprintf('%03d.fg',x);
     end
 elseif nargin == 6
     p.names     = names;
 end
 
-if ~isequal(length(p.gender,p.identity,p.names))
+if ~isequal(length(p.gender),length(p.identity),length(p.names))
     error('Gender, identity and names must be of same length');
 end
     
 if nargin < 4
-    fprintf('Please specify the source directory');
+    fprintf('\nPlease specify the source directory\n');
     p.folder    = uigetdir([],'Please select the source directory');
 else 
     p.folder    = folder;
 end
 
 if nargin < 5
-    fprintf('Please specify the two basic identities.');
+    fprintf('Please specify the two basic identities.\n');
     p.id1    = uigetfile('*.fg','Please select the first identity');
     p.id2    = uigetfile('*.fg','Please select the second identity');
 else
@@ -63,16 +63,16 @@ end
 
 %% General preparations - where to save and so on
 %define where files should be saved and save mapping of names to settings
-if ~strcmp(folder(end),filesep)
-    folder(end+1) = filesep;
+if ~strcmp(p.folder(end),filesep)
+    p.folder(end+1) = filesep;
 end
 
-saveFolder  = [folder,sprintf('newFaces_fg%s',date),filesep,'fg',filesep];
+saveFolder  = [p.folder,sprintf('newFaces_fg%s',date),filesep,'fg',filesep];
 if ~exist(saveFolder,'dir')
     mkdir(saveFolder);
 end
 
-filename    = p.names';identity = p.identity';gender = p.gender';
+filename    = p.names';identity = p.identity;gender = p.gender;
 name2set    = table(filename,identity,gender);
 name2setFilename = [saveFolder,'names2settings.xlsx'];
 
@@ -85,30 +85,45 @@ end
 
 writetable(name2set,name2setFilename,'WriteVariableNames',true);
 
+%% JAVA preparations - create our ROBOT
+global ROBOT
+
+import java.awt.Robot;
+import java.awt.event.*;
+ROBOT = java.awt.Robot;
+
 %% Countdown preparation
-fprintf(['Please make sure that FaceGen is opened on the same screen where you defined the coordinates.\n',...
-         'MATLAB is supposed to be opened on the other screen.\n',...
-         'IMPORTANT: Before you start, make sure that the ''Sync Lock'' boxes under the controls for gender\n',...
-         'and tween are unticked.\n\n',... 
+clc;
+fprintf(['Please make sure that FaceGen is opened on the same screen\n',... 
+         'where you defined the coordinates. MATLAB is supposed to be\n',... 
+         'opened on the other screen.\n\n',...
+         'IMPORTANT: Before you start, make sure that the ''Sync Lock''\n',... 
+         'boxes under the controls for gender and tween are unticked.\n\n',... 
          'If that is the case, you can start the procedure by pressing any key.\n',...
-         'Then, you have 5 seconds to move the mouse to the screen, in which FaceGen is running.']);
+         'Then, you have 5 seconds to move the mouse to the screen,\n',... 
+         'in which FaceGen is running.']);
      
 KbStrokeWait;
 
 for x = fliplr(1:5)
-    fprintf('%d\n',x);
+    fprintf('\n%d',x);
     WaitSecs(1);
 end
 
 %% The real stuff
-for fg = 1:length(names)
-    
-    AFG_loadID(p.folder,p.id1,p.coords); %load first ID
-    AFG_loadTarget(p.folder,p.id2,p.coords);%load target
+
+%bring Facegen window into focus
+AFG_leftMouse(p.coord.yaw);
+
+for fg = 1:length(p.names)
+  
+    AFG_loadID(p.folder,p.id1,p.coord); %load first ID
+    AFG_loadTarget(p.folder,p.id2,p.coord);%load target
     AFG_adjustRuler(p.identity(fg),'tween');%morph that shit
-    AFG_leftMouse(coords.generate);%move to the 'generate' tab
-    AFG_leftMouse(coords.gender);%and to the gender thing
+    AFG_leftMouse(coord.generate);%move to the 'generate' tab
+    AFG_leftMouse(coord.gender);%and to the gender thing
     AFG_adjustRuler(p.gender(fg),'gender');%add gender to the mix
     AFG_saveFG(p.names(fg),saveFolder,coords);
     
 end
+end%end of function

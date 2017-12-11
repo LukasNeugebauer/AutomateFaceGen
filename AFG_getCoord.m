@@ -66,14 +66,16 @@ confirmed = 0; %variable that keeps script from continuing without confirmation
 while ~confirmed
     for dummy = stringNames' %actually get the positions
         coords.pos.(dummy{1}) = AFG_getPosition(strings.pos.(dummy{1}));
-        if strcmp(dummy{1},'fileLine') %let subjects close the pop-up window
+        if sum(strcmp(dummy{1},{'fileLine','loadTarget'})) > 0 %let subjects close the pop-up window
+            fprintf('Please close the pop-up-window before we proceed\n');
             button = 0;
             while ~button;[~,~,button] = GetMouse;end;
             while any(button);[~,~,button] = GetMouse;end
         end
     end
     if checkCorr == 1
-        resp = input('Are you sure that you hit all the right locations? [y/n]\n','s');
+        WaitSecs(1);commandwindow;
+        resp = input('Are you sure that you hit all the right locations? [y/n]\nYou might have to click into the command window to answer..\n','s');
         if strcmp(resp,'y')
             confirmed = 1;
         end
