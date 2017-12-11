@@ -23,6 +23,11 @@ function [] = AFG_createImages(coords,identity,gender,emotion,varargin)
 %       under which the images are supposed to be saved. 
 %
 
+p.coords    = coords;
+p.identity  = identity;
+p.gender    = gender;
+p.emotion   = emotion;
+
 %handle variable arguments
 if nargin > 6 %names for saved images
     if iscell(varargin{3})
@@ -53,4 +58,16 @@ else
     pid1    = uigetfile('*.fg','Please select the first identity');
     pid2    = uigetfile('*.fg','Please select the second identity');
 end
+
+%import robot java class and define it as global so other functions can
+%use it as well
+
+import java.awt.Robot;
+import java.awt.event.*;
+robot = java.awt.Robot;
+
+global robot
     
+
+
+
