@@ -21,7 +21,7 @@ import java.awt.event.*;
 leftMouseKey = java.awt.event.InputEvent.BUTTON1_MASK;%define left mouse key
 
 ROBOT.mouseMove(coord(1),coord(2)); %move mouse to defined position
-WaitSecs(0.1); %give computer some time
+WaitSecs(0.05); %give computer some time
 
 for x = 1: numberOfClicks %https://www.youtube.com/watch?v=oJDGcxAf9D8
     ROBOT.mousePress(leftMouseKey);
@@ -29,6 +29,6 @@ for x = 1: numberOfClicks %https://www.youtube.com/watch?v=oJDGcxAf9D8
     WaitSecs(0.05);
 end
 
-WaitSecs(0.5);
+WaitSecs(0.1);
 
 end

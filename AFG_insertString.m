@@ -5,6 +5,6 @@ function [] = AFG_insertString(string)
 
 clipboard('copy',string);
 WaitSecs(0.1);%prevent CPU bottleneck
-clipboard('paste');
+AFG_ctrlPlus('v');
 
 end

@@ -17,12 +17,13 @@ else
 end
 
 %define the keys 
-[pageDown,pageUp,keyDown,keyUp] = deal(34,33,40,38);
+[pageDown,pageUp,keyDown] = deal(34,33,40);
 
 %set control back to zero
 for x = 1:setBackSteps 
     ROBOT.keyPress(pageUp);
     ROBOT.keyRelease(pageUp);
+    WaitSecs(0.01);
 end
 
 %make new value applicable and break it down into KB events
@@ -38,11 +39,11 @@ for x = 1:bigSteps
 end
 
 for x = 1:smallSteps
-    ROBOT.keyPress(kbDown);
-    ROBOT.keyRelease(kbDown);
+    ROBOT.keyPress(keyDown);
+    ROBOT.keyRelease(keyDown);
     WaitSecs(0.01);
 end
 
-WaitSecs(1);
+WaitSecs(0.5);
 
 end

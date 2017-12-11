@@ -22,10 +22,14 @@ strings.pos.file        =  'Please click on the button ''File'' in the upper lef
 strings.pos.saveImage   =  'Click on ''Save Image'' in the dropdown menu.\n'; 
                         
 strings.pos.adressLine  =  ['A window should have opened. In this window, please click in the adress line on top.\n'...
-                        'Do not click into the letters but somewhere in the whitespace on the right of it.\n'];
+                            'Do not click into the letters but on the far right of it.\n'];
 
 strings.pos.fileLine    =  ['Now click in the lower field, where you can specify the name of a file.\n'...
                         'Afterwards you can close the pop-up window (NOT the FaceGen GUI though)\n'];  
+                    
+strings.pos.openFile    = ['Please press the keyboard combination ''Ctrl + O'' and wait for a window to open.\n',...
+                           'Once it has opened, click in the lower text field where you specify the file name.\n',...
+                           'Afterwards you can close the pop-up-window again.\n'];
                     
 strings.pos.generate    =  'Next, click on the ''Generate'' tab in the top panel.\n';
 

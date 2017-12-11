@@ -59,14 +59,14 @@ else
     p.id2    = uigetfile('*.fg','Please select the second identity');
 end
 
-%import robot java class and define it as global so other functions can
+%import ROBOT java class and define it as global so other functions can
 %use it as well
 
 import java.awt.Robot;
 import java.awt.event.*;
-robot = java.awt.Robot;
+ROBOT = java.awt.Robot;
 
-global robot
+global ROBOT
     
 
 

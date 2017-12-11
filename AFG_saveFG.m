@@ -7,8 +7,9 @@ AFG_leftMouse(coords.adressLine);
 AFG_insertString(folder);
 AFG_pressAndRelease('Enter');
 AFG_leftMouse(coords.fileLine);
-AFG_insertString([name,'.fg']);
+AFG_insertString(name);
+AFG_pressAndRelease('Enter');
 
-WaitSecs(1);
+WaitSecs(0.5);
 
 end

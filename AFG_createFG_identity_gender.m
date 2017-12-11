@@ -86,11 +86,7 @@ end
 writetable(name2set,name2setFilename,'WriteVariableNames',true);
 
 %% JAVA preparations - create our ROBOT
-global ROBOT
-
-import java.awt.Robot;
-import java.awt.event.*;
-ROBOT = java.awt.Robot;
+AFG_initROBOT;
 
 %% Countdown preparation
 clc;
@@ -119,11 +115,12 @@ for fg = 1:length(p.names)
   
     AFG_loadID(p.folder,p.id1,p.coord); %load first ID
     AFG_loadTarget(p.folder,p.id2,p.coord);%load target
+    AFG_leftMouse(coord.tweenSteps);
     AFG_adjustRuler(p.identity(fg),'tween');%morph that shit
     AFG_leftMouse(coord.generate);%move to the 'generate' tab
     AFG_leftMouse(coord.gender);%and to the gender thing
     AFG_adjustRuler(p.gender(fg),'gender');%add gender to the mix
-    AFG_saveFG(p.names(fg),saveFolder,coords);
+    AFG_saveFG(p.names{fg},saveFolder,coord);
     
 end
 end%end of function
