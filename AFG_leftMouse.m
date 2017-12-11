@@ -26,4 +26,6 @@ for x = 1: numberOfClicks %https://www.youtube.com/watch?v=oJDGcxAf9D8
     WaitSecs(0.05);
 end
 
+WaitSecs(0.5);
+
 end

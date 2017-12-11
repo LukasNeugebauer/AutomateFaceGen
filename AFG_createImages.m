@@ -55,8 +55,8 @@ if nargin > 5 %definition of basic IDs
     clear ids;
 else
     fprintf('Please select the identities from the pop-up-window\n');
-    pid1    = uigetfile('*.fg','Please select the first identity');
-    pid2    = uigetfile('*.fg','Please select the second identity');
+    p.id1    = uigetfile('*.fg','Please select the first identity');
+    p.id2    = uigetfile('*.fg','Please select the second identity');
 end
 
 %import robot java class and define it as global so other functions can

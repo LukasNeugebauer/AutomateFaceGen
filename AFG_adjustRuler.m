@@ -43,4 +43,6 @@ for x = 1:smallSteps
     WaitSecs(0.01);
 end
 
+WaitSecs(1);
+
 end

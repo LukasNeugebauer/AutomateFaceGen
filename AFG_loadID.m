@@ -17,5 +17,6 @@ AFG_leftMouse(coords.fileLine);
 WaitSecs(0.2);
 AFG_insertString(id);
 AFG_pressAndRelease('Enter');
+WaitSecs(1);
 
 end

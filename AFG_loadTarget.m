@@ -7,6 +7,7 @@ function [] = AFG_loadTarget(folder,id,coords)
 %coords is a structure that contains all relevant coordinates for FaceGen
 %buttons. MUST contain fields: 'tween', 'loadTarget', 'adressLine' and
 %'fileLine';
+
 %set mouse to the "tween" tab
 AFG_leftMouse(coords.tween);
 WaitSecs(0.5);
