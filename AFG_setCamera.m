@@ -4,10 +4,14 @@ function [] = AFG_setCamera(yaw,pitch,coord)
 %coord is output from AFG_getCoord;
 
 AFG_leftMouse(coord.camera);
-AFG_leftMouse(coord.yaw);
+AFG_leftMouse(coord.yaw,2);
+AFG_pressAndRelease('Backspace');
+AFG_pressAndRelease('Backspace');
 AFG_insertString(num2str(yaw));
 AFG_pressAndRelease('Enter');
-AFG_leftMouse(coord.pitch);
+AFG_leftMouse(coord.pitch,2);
+AFG_pressAndRelease('Backspace');
+AFG_pressAndRelease('Backspace');
 AFG_insertString(num2str(pitch));
 AFG_pressAndRelease('Enter');
 

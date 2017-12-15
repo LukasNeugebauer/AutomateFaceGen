@@ -1,4 +1,4 @@
-function [] = AFG_pressAndRelease(key,type)
+function [] = AFG_pressAndRelease(key,varargin)
 %
 %simulates key press of one key. Key must be speficied as character, even
 %when its something like 'Enter' or 'Alt'
