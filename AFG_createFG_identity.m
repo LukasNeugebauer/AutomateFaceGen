@@ -1,11 +1,11 @@
-function [saveFolder] = AFG_createFG_identity_gender(auto,coord,identity,gender,varargin)
-%[] = AFG_createFG_identity_gender(coord,gender,identity[,folder][,{id1,id2}][,names])
+function [saveFolder] = AFG_createFG_identity(auto,coord,identity,varargin)
+%[] = AFG_createFG_identity(coord,gender[,folder][,{id1,id2}][,names])
 %
-%creates .fg-Files of different morphing steps between two identities and
-%gender steps. These can be further processed using 'AFG_createImages'.
+%creates .fg-Files of different morphing steps between two identities. 
+%These can be further processed using 'AFG_createImages'.
 %
 %Emotional expression cannot be varied this way bc it is not being saved in
-%.fg-files.
+%.fg-files. Create FG_files first and use AFG_createImages for that.
 %
 %Expected input:
 %   auto:       defines whether it is the first run and accordingly if the
@@ -29,8 +29,8 @@ function [saveFolder] = AFG_createFG_identity_gender(auto,coord,identity,gender,
 %               to FG settings%   
 
 %Update 06.06.2018:
-%   This is just another version, because I have to produce faces that
-%   differ only on the identity dimension
+%   This is just another version of "AFG_createFG_identity_gender", because 
+%   I have to produce faces that differ only on the identity dimension
 %
 %% Argument handling
 
