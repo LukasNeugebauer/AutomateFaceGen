@@ -71,7 +71,7 @@ if ~strcmp(p.folder(end),filesep)
     p.folder(end+1) = filesep;
 end
 
-saveFolder  = [p.folder,sprintf('newFaces_%s_%s',p.id1,p.id2),filesep,'fg',filesep];
+saveFolder  = [p.folder,sprintf('bmp',p.id1,p.id2),filesep,'fg',filesep];
 if exist(saveFolder,'dir')
    rmdir(saveFolder,'s');
 end

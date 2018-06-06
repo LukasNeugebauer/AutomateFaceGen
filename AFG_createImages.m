@@ -136,7 +136,7 @@ end
 %% Actual procedure
 
 %click in the window so that keyboard shortcuts will apply to it
-AFG_leftMouse(coord.yaw);
+AFG_leftMouse(p.coord.yaw);
 
 for fg = 1:numel(p.fgList) %loop identities
     
