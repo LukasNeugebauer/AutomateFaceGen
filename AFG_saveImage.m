@@ -16,6 +16,7 @@ else
 end
 
 AFG_leftMouse(coord.file);
+WaitSecs(0.4);
 AFG_leftMouse(coord.saveImage);
 
 WaitSecs(1);

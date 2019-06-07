@@ -1,4 +1,4 @@
-function [] = AFG_adjustRuler(value,type)
+function [value] = AFG_adjustRuler(value,type)
 %
 %Set control for gender or tween between two identities to the new value
 %defined in 'value'. 

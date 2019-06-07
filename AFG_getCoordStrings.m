@@ -1,8 +1,15 @@
-function  [strings] = AFG_getCoordStrings
+function  [strings] = AFG_getCoordStrings(nEmo);
 %[strings] = AFG_getCoordStrings
 %
+%optional argument nEmo defines if you want to get coordinates for multiple emo
+%tions at once
 %Generate the strings that are being used to guide users through the
 %coordinate generation procedure.
+
+if ~exist('nEmo','var')
+	nEmo = 1;
+end
+
 
 strings.intro1      =  ['By clicking on the areas that you will need for the process\n'...
                         'you can determine the relevant locations. Just do as the program\n'...
@@ -50,7 +57,13 @@ strings.pos.tweenSteps  =  'And on the ''S'' controller for Symmetry. This shoul
 
 strings.pos.morph       =  'Next, click on the button ''Morph'' in the top panel.\n';
 
-strings.pos.emotion     =  ['Now click on the number field behind the emotion that you want to manipulate.\n'...
-                        'If you want to morph more than one emotion or other aspects, you need to adapt the script'];
+if nEmo == 1
+	strings.pos.emotion     =  ['Now click on the number field behind the emotion that you want to manipulate.\n'...
+				'If you want to morph more than one emotion or other aspects, you need to adapt the script'];
+else
+	for i = 1:nEmo
+		strings.pos.(sprintf('emotion%d',i)) = [sprintf('Now click on the emotion #%d that you want to manipulate', i)];
+	end
+end
 
 strings.done        =  'That''s it. All relevant locations are defined.\n';

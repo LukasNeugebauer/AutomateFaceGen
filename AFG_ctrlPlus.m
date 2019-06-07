@@ -24,6 +24,6 @@ ROBOT.keyPress(thisCode);
 ROBOT.keyRelease(ctrl);
 ROBOT.keyRelease(thisCode);
 
-WaitSecs(1);
+WaitSecs(0.5);
 
 end

@@ -11,14 +11,13 @@ if nargin == 1
     numberOfClicks = 1;
 elseif nargin == 2
     numberOfClicks = varargin{1};
-end
-
-if ~ismember(numberOfClicks,[1,2])
-    error('numberOfClicks must be 1 or 2');
+else
+    error(['numberOfClicks must be 1 or 2. This is assuming that you actually meant one of these options\n.',...
+           'Otherwise change the code. Hint: It''s only one character that needs to be changed.']);
 end
 
 import java.awt.event.*;
-leftMouseKey = java.awt.event.InputEvent.BUTTON1_MASK;%define left mouse key
+leftMouseKey = java.awt.event.InputEvent.BUTTON1_MASK;%define left mouse key 
 
 ROBOT.mouseMove(coord(1),coord(2)); %move mouse to defined position
 WaitSecs(0.05); %give computer some time

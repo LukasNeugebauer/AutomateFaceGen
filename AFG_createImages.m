@@ -1,48 +1,38 @@
-function [saveFolder] = AFG_createImages(auto,coord,emotion,varargin)
-%AFG_createImages(auto,coord,emotion[,sourceFolder][,names])
+function [saveFolder] = AFG_createImages(auto,coord,emotion,sourceFolder,varargin)
+%AFG_createImages(auto,coord,emotion,sourceFolder[,names])
 %
 %this function is written to create bmp-images with different amounts
-%of emotional expression as speficied in . The emotion that is being 
-%manipulated is defined by the emotion coordinate in "coord", i.e. if you 
-%clicked on "anger" while deriving the coordinates, anger will be manipulated.  
+%of emotional expression as speficied in 'emotion'. The emotion that is 
+%being manipulated is defined by the emotion coordinate in "coord", i.e. 
+%if you clicked on "anger" while defining the coordinates, anger will be 
+%manipulated.  
 %
-%auto       =   determines wether initial stuff is needed. Put 1 if you're
-%               in a loop and want the program to handle everything on it's
-%               own while you're out drinking.
+%auto           =   determines wether initial stuff is needed. Put 1 if you're
+%                   in a loop and want the program to handle everything on it's
+%                   own while you're out drinking.
 %
-%coord      =   coordinates for the mouse - is ouput from AFG_getCoord
+%coord          =   coordinates for the mouse - is ouput from AFG_getCoord
 %
-%emotion    =   vector that contains settings for the emotion control. 
-%               Expected are values between 0 and 1 or between 0 and 100.
+%emotion        =   vector that contains settings for the emotion control. 
+%                   Expected are values between 0 and 1 or between 0 and 100.
+%
+%sourceFolder   =   directory in which .fg-files are that are supposed 
+%                   to be used. This folder is also expected to contain 
+%                   an excel-file that contains the mapping of filenames 
+%                   on the settings of identity and gender in FaceGen. 
+%                   Otherwise the function will throw back an error 
+%                   message and not work.
 %
 %optional argument:
 %   
-%   names           =   character cell array that contains the names under 
-%                       which the images are supposed to be saved.
-%
-%   sourceFolder    =   directory in which .fg-files are that are supposed 
-%                       to be used. This folder is also expected to contain 
-%                       an excel-file that contains the mapping of filenames 
-%                       on the settings of identity and gender in FaceGen. 
-%                       Otherwise the function will throw back an error 
-%                       message and not work. If the directory as not
-%                       specified as argument, it has to be set per GUI.
+%names          =   character cell array that contains the names under 
+%                   which the images are supposed to be saved.
 
-%% Handle arguments, check sanity and general preparations
+%% Handle arguments, sanity checking and general preparations
 
 p.coord    = coord;
-p.emotion   = emotion;
-    
-if nargin >= 4 %folder in which identities are
-    if ischar(varargin{1})
-        p.folder = varargin{1};
-    else
-       error('SourceFolder must be speficied as string'); 
-    end
-else
-    fprintf('\nPlease select the folder in which the basic identities are via the pop-up-window\n');
-    p.folder  = uigetdir([],'Please select the folder for the .fg-files');
-end
+p.emotion   = asColumn(emotion);
+p.folder    = sourceFolder;
 
 %make sure folder has a filesep at the end
 if ~strcmp(p.folder(end),filesep)
@@ -69,10 +59,6 @@ else
     error('Emotion vector must not contain negative values.');
 end
 
-if isrow(p.emotion) %check if column vector - if not, transpose
-    p.emotion = p.emotion';
-end
-
 %Create list of present identities and check consistency with table
 p.fgList    = dir([p.folder,'*.fg']);
 if ~numel(p.fgList) == numel(p.name2set(:,1))
@@ -80,8 +66,8 @@ if ~numel(p.fgList) == numel(p.name2set(:,1))
 end
 
 %define names
-if nargin >=5 %names for saved images
-    if iscell(varargin{2})
+if nargin == 5 %names for saved images
+    if iscell(varargin{1})
         names = varargin{2};
     else
         error('names must be specified as cell array');
@@ -90,10 +76,8 @@ else
     for x = 1: ( numel(p.emotion) * numel(p.fgList) )
         names{x} = sprintf('%04d.bmp',x);
     end
-end
-if isrow(names)
-    names = names';
-end
+    names   = asColumn(names);
+end 
 namesTab = table(names);
 p.names   = names;
 
@@ -104,7 +88,7 @@ p.name2set  = [namesTab,name2set,emo];
 clear emo namesTab name2set;
 
 %define savefolder, create if necessary, save table
-saveFolder = [p.folder,'bmp_emotions',filesep];
+saveFolder = [p.folder,'bmp',filesep];
 if ~exist(saveFolder,'dir')
     mkdir(saveFolder);
 end
@@ -120,11 +104,11 @@ if ~auto
     fprintf(['We''re ready to start.\nPlease make sure that FaceGen is opened',... 
              'in the screen for which you defined the coordinates.\n\n',...
              'DO. NOT. MOVE. THE. MOUSE. during the procedure.\n',... 
-             'Consider disconnecting any external mouse - you won''t need it.\n\n.',...
+             'Consider disconnecting any external mouse - you won''t need it.\n\n',...
              'Start the procedure with any key and move the cursor to the FaceGen-Screen during the countdown.']);
 
     %wait for input     
-    KbStrokeWait;
+    KbStrokeWait(0);
 
     %countdown
     for count = fliplr(1:5)
@@ -132,7 +116,9 @@ if ~auto
         disp(count);
         WaitSecs(1);
     end
+    
 end
+
 %% Actual procedure
 
 %click in the window so that keyboard shortcuts will apply to it
@@ -144,12 +130,9 @@ for fg = 1:numel(p.fgList) %loop identities
     AFG_setCamera(0,-10,coord);%adjust camera settings just in case
     
     for em = 1:numel(p.emotion) %apply 
-        
-        runNum  = (fg-1)*numel(p.emotion)+em;
-        
+        runNum  = (fg-1)*numel(p.emotion)+em
         AFG_setEmotion(p.emotion(em),coord,em);
         AFG_saveImage(saveFolder,p.names{runNum},p.coord);
-        
         %control loop so the program doesn't accidentally hack into the
         %pentagon while it runs over night and something is out of sync
         WaitSecs(0.5);
@@ -157,8 +140,9 @@ for fg = 1:numel(p.fgList) %loop identities
         if numel(counter) ~= runNum
             error('Something''s fishy...');
         end
-        
     end
+    
+    KbQueueFlush(0); %prevent the buffer from getting too full which can throw and error everything goes down the drain 
     
 end %end of loop over identities
     
